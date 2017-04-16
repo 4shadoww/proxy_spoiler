@@ -13,4 +13,7 @@ commonports = ["80", "8080", "8888", "25",
 timeout = 5
 
 # How many scans
-first_scan = 500
+scan_limit = 1000
+
+# Sleep time in minutes
+sleeptime = 5
