@@ -22,5 +22,5 @@ def spoil(targetIP):
 			print("timeout:", port)
 		except urllib.error.URLError:
 			print("connection refused on port", port)
-		#conproxy(targetIP, port, protocol="https")
+
 	return False

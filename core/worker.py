@@ -13,6 +13,10 @@ import core.config
 class Worker:
 	counter = 0
 
+	def checkIP(self, ip):
+		print("now checking ip:", ip)
+		proxy_spoiler.spoil(ip)
+
 	def run(self):
 		try:
 			oldtime = datetime.timedelta(hours=12, minutes=0, seconds=0)
@@ -26,10 +30,7 @@ class Worker:
 				if self.counter >= core.config.first_scan:
 					break
 
-				#print(rev)
-				print("checking:", rev["user"])
-				proxy_spoiler.spoil(rev["user"])
-
+				self.checkIP(rev["user"])
 				self.counter += 1
 
 		except KeyboardInterrupt:
