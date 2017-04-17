@@ -6,3 +6,4 @@ throttle.ctrl
 pywikibot.lwp
 logs/
 db/
+test.py

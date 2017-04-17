@@ -17,10 +17,10 @@ def spoil(targetIP):
 		try:
 			if isproxy(targetIP, port, protocol="http"):
 				print("found from port", port)
-				return True
+				return True, port
 		except socket.timeout:
 			print("timeout:", port)
 		except urllib.error.URLError:
 			print("connection refused on port", port)
 
-	return False
+	return False, None

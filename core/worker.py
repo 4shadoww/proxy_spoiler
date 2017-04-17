@@ -22,34 +22,39 @@ class Worker:
 
 		if len(matches) == 0:
 			print("now checking ip:", ip)
-			if proxy_spoiler.spoil(ip):
-				self.db.insert({"ip": ip, "proxy": True})
+			data = proxy_spoiler.spoil(ip)
+			if data[0]:
+				self.db.insert({"ip": ip, "proxy": True, "port": data[1], "timestamp": str(datetime.datetime.now())})
 			else:
-				self.db.insert({"ip": ip, "proxy": False})
+				self.db.insert({"ip": ip, "proxy": False, "port": None, "timestamp": str(datetime.datetime.now())})
 		else:
 			print("skipping ip", ip, "because already exists in cache")
 
 	def run(self):
 		try:
-			oldtime = datetime.datetime.now() - datetime.timedelta(hours=12, minutes=0, seconds=0)
+			oldtime = datetime.datetime.utcnow() - datetime.timedelta(hours=12, minutes=0, seconds=0)
 			api = APISite("fi")
 			site = pywikibot.Site()
+			first_scan = True
 			print("now checking...")
 			while True:
+				timeutc = datetime.datetime.utcnow()
 				timenow = datetime.datetime.now()
-				oldtime2 = timenow
+
 				counter = 0
 
-				for rev in api.recentchanges(start=timenow, end=oldtime, showAnon=True, showBot=False):
+				for rev in api.recentchanges(start=timeutc, end=oldtime, showAnon=True):
 					if counter >= core.config.scan_limit:
 						break
+					print(rev["user"])
 					self.checkIP(rev["user"])
 					counter += 1
-				oldtime = oldtime2
 
-				if datetime.datetime.now() - oldtime <= datetime.timedelta(hours=0, minutes=core.config.sleeptime, seconds=0):
-					sl = datetime.timedelta(hours=0, minutes=core.config.sleeptime, seconds=0) - (datetime.datetime.now() - oldtime)
+				oldtime = timeutc
+				if datetime.datetime.utcnow() - oldtime <= datetime.timedelta(hours=0, minutes=core.config.sleeptime, seconds=0):
+					sl = datetime.timedelta(hours=0, minutes=core.config.sleeptime, seconds=0) - (datetime.datetime.utcnow() - oldtime)
 					print("sleeping for:", sl)
 					time.sleep((sl.seconds))
+
 		except KeyboardInterrupt:
 			print("yuno terminated...")
