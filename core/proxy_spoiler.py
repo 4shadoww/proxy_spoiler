@@ -10,8 +10,8 @@ def isproxy(targetIP, port, protocol="http"):
 	opener = urllib.request.build_opener(proxy_support)
 	urllib.request.install_opener(opener)
 	html = urllib.request.urlopen("http://www.google.com").read()
-
-	return True
+	if "google" in str(html):
+		return True
 
 def spoil(targetIP):
 	for port in core.config.commonports:
@@ -19,16 +19,18 @@ def spoil(targetIP):
 			if isproxy(targetIP, port, protocol="http"):
 				print("found from port", port)
 				return True, port
+			else:
+				print("\"google\" not found from response using port", port)
 		except socket.timeout:
 			print("timeout:", port)
 		except urllib.error.URLError:
 			print("connection refused on port", port)
 		except http.client.BadStatusLine:
-			print("found from port", port)
-			return True, port
+			print("[http.client.BadStatusLine] proxy may have found from port", port)
+			return None, port
 		except ConnectionResetError:
-			print("found from port", port)
-			return True, port
+			print("[ConnectionResetError] proxy may have found from port", port)
+			return None, port
 		except urllib.error.URLError:
 			print("url error on port", port)
 
