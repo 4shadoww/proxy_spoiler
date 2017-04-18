@@ -1,5 +1,6 @@
 import core.config
 import urllib.request
+import http.client
 import socket
 
 socket.setdefaulttimeout(core.config.timeout)
@@ -22,5 +23,13 @@ def spoil(targetIP):
 			print("timeout:", port)
 		except urllib.error.URLError:
 			print("connection refused on port", port)
+		except http.client.BadStatusLine:
+			print("found from port", port)
+			return True, port
+		except ConnectionResetError:
+			print("found from port", port)
+			return True, port
+		except urllib.error.URLError:
+			print("url error on port", port)
 
 	return False, None
