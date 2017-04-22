@@ -16,7 +16,7 @@ This module also includes objects:
 #
 from __future__ import unicode_literals
 
-__version__ = '$Id: a9c7a4e7891b7d2da5ae066886cdc0ee9635df67 $'
+__version__ = '$Id: 6f72ded52f8d75dce82c33fcc295eb7a3fc331bf $'
 #
 
 import hashlib
@@ -418,16 +418,20 @@ class BasePage(UnicodeMixin, ComparableMixin):
         # TODO: what about redirects, errors?
         return self._revisions[oldid].text
 
-    def permalink(self, oldid=None):
+    def permalink(self, oldid=None, percent_encoded=True):
         """Return the permalink URL of an old revision of this page.
 
         @param oldid: The revid of the revision desired.
 
         """
+        if percent_encoded:
+            title = self.title(asUrl=True)
+        else:
+            title = self.title(asUrl=False).replace(' ', '_')
         return "//%s%s/index.php?title=%s&oldid=%s" \
                % (self.site.hostname(),
                   self.site.scriptpath(),
-                  self.title(asUrl=True),
+                  title,
                   (oldid if oldid is not None else self.latest_revision_id))
 
     @property
@@ -2843,7 +2847,7 @@ class User(Page):
         @rtype: bool
         """
         if not self.isEmailable():
-            raise NotEmailableError('%s is not mailable' % self.username)
+            raise NotEmailableError(self)
 
         if not self.site.has_right('sendemail'):
             raise UserRightsError('You don\'t have permission to send mail')

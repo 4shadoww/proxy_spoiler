@@ -56,7 +56,7 @@ or by adding a list to the given one:
 #
 from __future__ import unicode_literals
 
-__version__ = '$Id: 31de09d49340bbcc4c77bc57d2143d7460fcbed0 $'
+__version__ = '$Id: aab60fec3cbe1614fbadb723bbf4fafc00c863f6 $'
 #
 
 import re
@@ -349,7 +349,7 @@ class CosmeticChangesToolkit:
         interwikiLinks = None
         allstars = []
 
-        # The PyWikipediaBot is no longer allowed to touch categories on the
+        # Pywikibot is no longer allowed to touch categories on the
         # German Wikipedia. See
         # https://de.wikipedia.org/wiki/Hilfe_Diskussion:Personendaten/Archiv/1#Position_der_Personendaten_am_.22Artikelende.22
         # ignoring nn-wiki of cause of the comment line above iw section

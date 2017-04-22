@@ -20,7 +20,7 @@ These parameters are supported to specify which pages titles to print:
 #
 from __future__ import unicode_literals
 
-__version__ = '$Id: e6420a4338d0e40f8771a450fa46bb6472639b01 $'
+__version__ = '$Id: d83d85db6a438a5fea255612ca3fbd79216b06f4 $'
 #
 
 import codecs
@@ -2295,7 +2295,8 @@ def WikidataQueryPageGenerator(query, site=None):
 
     wd_query = wdquery.WikidataQuery(cacheMaxAge=0)
     data = wd_query.query(wd_queryset)
-
+    # This item count should not be copied by other generators,
+    # and should be removed when wdq becomes a real generator (T135592)
     pywikibot.output(u'retrieved %d items' % data[u'status'][u'items'])
     for item in data[u'items']:
         page = pywikibot.ItemPage(repo, u'Q{0}'.format(item))
@@ -2332,7 +2333,6 @@ def WikibaseSearchItemPageGenerator(text, language=None, total=None, site=None):
     repo = site.data_repository()
 
     data = repo.search_entities(text, language, limit=total, site=site)
-    pywikibot.output(u'retrieved %d items' % len(list(data)))
     for item in data:
         yield pywikibot.ItemPage(repo, item['id'])
 

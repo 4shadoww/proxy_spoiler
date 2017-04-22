@@ -13,7 +13,7 @@ http://python-irclib.sourceforge.net/
 #
 from __future__ import unicode_literals
 
-__version__ = '$Id: 77d258aa48af2cd35be72ce22c7012d54b5e5192 $'
+__version__ = '$Id: 3294d763b80d989921c1fa888c8bfde7be7fec20 $'
 
 # Note: the intention is to develop this module (at some point) into a Bot
 # class definition that can be subclassed to create new, functional bot
@@ -25,13 +25,15 @@ import re
 try:
     from ircbot import SingleServerIRCBot
 except ImportError as e:
+    ircbot_import_error = e
+
     class SingleServerIRCBot(object):
 
         """Fake SingleServerIRCBot."""
 
         def __init__(*args, **kwargs):
             """Report import exception."""
-            raise e
+            raise ircbot_import_error
 
 
 _logger = "botirc"

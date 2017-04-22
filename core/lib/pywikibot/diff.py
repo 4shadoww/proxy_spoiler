@@ -7,7 +7,7 @@
 #
 from __future__ import unicode_literals
 
-__version__ = '$Id: 08f939ece5e39f41b8b01509122905a5422d8876 $'
+__version__ = '$Id: ee41492e16f464fb9f159339e791a13fdad11d8c $'
 
 
 import difflib
@@ -19,11 +19,6 @@ if sys.version_info[0] > 2:
     from itertools import zip_longest
 else:
     from itertools import izip_longest as zip_longest
-
-try:
-    from bs4 import BeautifulSoup
-except ImportError as bserror:
-    BeautifulSoup = False
 
 import pywikibot
 from pywikibot.tools import chars
@@ -570,9 +565,7 @@ def html_comparator(compare_string):
     @return: deleted and added list of contexts
     @rtype: dict
     """
-    # check if BeautifulSoup imported
-    if not BeautifulSoup:
-        raise bserror  # should have been raised and stored earlier.
+    from bs4 import BeautifulSoup
 
     comparands = {'deleted-context': [], 'added-context': []}
     soup = BeautifulSoup(compare_string)

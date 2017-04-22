@@ -7,8 +7,8 @@
 #
 from __future__ import unicode_literals
 
-__release__ = '2.0rc4'
-__version__ = '$Id: e26392a530582f286edf2d99e729218b2e93405e $'
+__release__ = '2.0rc5'
+__version__ = '$Id: c4ccfaed2b6e4a8a4313e6c06056892cbf536bb2 $'
 
 import datetime
 import math
