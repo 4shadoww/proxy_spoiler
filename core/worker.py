@@ -57,4 +57,4 @@ class Worker:
 					time.sleep((sl.seconds))
 
 		except KeyboardInterrupt:
-			print("yuno terminated...")
+			print("proxy spoiler terminated...")
